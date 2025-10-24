@@ -1,9 +1,14 @@
 package com.example.foodstore.repository;
 
 import com.example.foodstore.entity.Producto;
+import com.example.foodstore.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-public interface UsuarioRepository extends JpaRepository<Producto, Long> {
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+
+    Optional<Usuario> findByEmail(String email);
 }
