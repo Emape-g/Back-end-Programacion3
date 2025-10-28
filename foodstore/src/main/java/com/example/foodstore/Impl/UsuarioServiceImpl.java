@@ -9,7 +9,8 @@ import com.example.foodstore.entity.mapper.AuthMapper;
 import com.example.foodstore.entity.mapper.UsuarioCreateMapper;
 import com.example.foodstore.entity.mapper.UsuarioMapper;
 import com.example.foodstore.exception.ContrasenaInvalidaException;
-import com.example.foodstore.exception.UsuarioExistenteException;
+import com.example.foodstore.exception.EntidadExistenteException;
+import com.example.foodstore.exception.EntidadNoEncontradaException;
 import com.example.foodstore.repository.UsuarioRepository;
 import com.example.foodstore.service.UsuarioService;
 import com.example.foodstore.utils.PasswordUtil;
@@ -40,7 +41,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioDTO crear(UsuarioCreateDTO usuarioCreateDTO) {
         if (usuarioRepository.findByEmail(usuarioCreateDTO.getEmail()).isPresent()) {
-            throw new UsuarioExistenteException("El usuario ya existe");
+            throw new EntidadExistenteException("El usuario ya existe");
         }
         Usuario usuario = usuarioCreateMapper.toEntity(usuarioCreateDTO);
 
@@ -64,14 +65,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDTO buscarPorId(Long id) {
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));;
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new EntidadNoEncontradaException("Usuario no encontrado"));;
         return usuarioMapper.toDTO(usuario);
     }
 
     @Override
     public UsuarioDTO actualizar(Long id, UsuarioDTO dto) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new EntidadNoEncontradaException("Usuario no encontrado"));
 
         usuario.setNombre(dto.getNombre());
         usuario.setEmail(dto.getEmail());

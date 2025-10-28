@@ -1,18 +1,17 @@
 package com.example.foodstore.controller;
 
-import com.example.foodstore.entity.Usuario;
 import com.example.foodstore.entity.dto.AuthDTO;
 import com.example.foodstore.entity.dto.UsuarioCreateDTO;
 import com.example.foodstore.entity.dto.UsuarioDTO;
 import com.example.foodstore.exception.ContrasenaInvalidaException;
-import com.example.foodstore.exception.UsuarioExistenteException;
+import com.example.foodstore.exception.EntidadExistenteException;
+import com.example.foodstore.exception.EntidadNoEncontradaException;
 import com.example.foodstore.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -45,10 +44,14 @@ public class UsuarioController {
     public ResponseEntity<?> getUsuario(@PathVariable Long id){
         try {
             UsuarioDTO usuarioDTO = usuarioService.buscarPorId(id);
-            if(usuarioDTO == null){
+            if (usuarioDTO == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
             return ResponseEntity.ok(usuarioDTO);
+        }catch (EntidadNoEncontradaException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", e.getMessage()));
         } catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
@@ -61,7 +64,7 @@ public class UsuarioController {
             UsuarioDTO nuevoUsuario = usuarioService.crear(usuarioCreateDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
 
-        } catch (UsuarioExistenteException e) {
+        } catch (EntidadExistenteException e) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body(Map.of("message", e.getMessage()));
@@ -80,9 +83,13 @@ public class UsuarioController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateUsuario(@PathVariable Long id,@RequestBody UsuarioDTO usuarioDTO){
-        try{
+        try {
             UsuarioDTO usuarioActualizado = usuarioService.actualizar(id, usuarioDTO);
-            return ResponseEntity.ok(usuarioDTO);
+            return ResponseEntity.ok(usuarioActualizado);
+        }catch (EntidadExistenteException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", e.getMessage()));
         }catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

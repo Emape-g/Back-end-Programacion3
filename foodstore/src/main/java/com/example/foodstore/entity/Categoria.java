@@ -17,7 +17,5 @@ import java.util.List;
 public class Categoria extends Base{
     private String nombre;
 
-    @OneToMany
-    private List<Producto> productos = new ArrayList<>();
 
 }
