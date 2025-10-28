@@ -35,7 +35,7 @@ public class FoodstoreApplication {
 						"admin",
 						"apellido",
 						"admin@admin.com",
-						123,
+						"123000000000000",
 						hash.encode("1234"),
 						Rol.ADMIN,
 						new ArrayList<>()

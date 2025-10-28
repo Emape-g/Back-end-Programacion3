@@ -2,7 +2,10 @@ package com.example.foodstore.controller;
 
 import com.example.foodstore.entity.Usuario;
 import com.example.foodstore.entity.dto.AuthDTO;
+import com.example.foodstore.entity.dto.UsuarioCreateDTO;
 import com.example.foodstore.entity.dto.UsuarioDTO;
+import com.example.foodstore.exception.ContrasenaInvalidaException;
+import com.example.foodstore.exception.UsuarioExistenteException;
 import com.example.foodstore.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -21,8 +25,8 @@ public class UsuarioController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthDTO authDTO){
         try{
-            Usuario usuario = usuarioService.login(authDTO);
-            return ResponseEntity.ok(usuario);
+            UsuarioDTO usuarioDTO = usuarioService.login(authDTO);
+            return ResponseEntity.ok(usuarioDTO);
         }catch (RuntimeException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
@@ -51,12 +55,26 @@ public class UsuarioController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> createUsuario(@RequestBody UsuarioDTO usuarioDTO){
-        try{
-            UsuarioDTO usuarioCreado = usuarioService.crear(usuarioDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    public ResponseEntity<?> createUsuario(@RequestBody UsuarioCreateDTO usuarioCreateDTO){
+        try {
+            System.out.println("REGISTER......");
+            UsuarioDTO nuevoUsuario = usuarioService.crear(usuarioCreateDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(nuevoUsuario);
+
+        } catch (UsuarioExistenteException e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(Map.of("message", e.getMessage()));
+
+        } catch (ContrasenaInvalidaException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            // Errores inesperados
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error interno en el servidor"));
         }
     }
 

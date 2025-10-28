@@ -1,38 +1,30 @@
 package com.example.foodstore.entity.mapper;
 
 import com.example.foodstore.entity.Usuario;
+import com.example.foodstore.entity.dto.UsuarioCreateDTO;
 import com.example.foodstore.entity.dto.UsuarioDTO;
 import org.springframework.stereotype.Component;
 
 @Component
-public class UsuarioMapper {
+public class UsuarioCreateMapper {
 
-    public UsuarioDTO toDTO(Usuario entity){
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setId(entity.getId());
+    public UsuarioCreateDTO toDTO(Usuario entity){
+        UsuarioCreateDTO dto = new UsuarioCreateDTO();
         dto.setNombre(entity.getNombre());
         dto.setEmail(entity.getEmail());
         dto.setApellido(entity.getApellido());
         dto.setCelular(entity.getCelular());
-        dto.setRol(entity.getRol());
-
-        if(entity.getPedidos() != null){
-            dto.setPedidos(entity.getPedidos());
-        }
         return dto;
     }
 
-    public Usuario toEntity(UsuarioDTO dto){
+    public Usuario toEntity(UsuarioCreateDTO dto){
         Usuario entity = new Usuario();
         entity.setNombre(dto.getNombre());
         entity.setEmail(dto.getEmail());
         entity.setApellido(dto.getApellido());
         entity.setCelular(dto.getCelular());
-        entity.setRol(dto.getRol());
 
-        if(dto.getPedidos() != null){
-            entity.setPedidos(dto.getPedidos());
-        }
         return entity;
     }
+
 }
