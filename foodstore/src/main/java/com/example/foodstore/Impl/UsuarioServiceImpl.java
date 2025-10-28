@@ -39,6 +39,20 @@ public class UsuarioServiceImpl implements UsuarioService {
     private PasswordUtil hash;
 
     @Override
+    public List<UsuarioDTO> listar() {
+        return usuarioRepository.findAll()
+                .stream()
+                .map(usuarioMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public UsuarioDTO buscarPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new EntidadNoEncontradaException("Usuario no encontrado"));;
+        return usuarioMapper.toDTO(usuario);
+    }
+
+    @Override
     public UsuarioDTO crear(UsuarioCreateDTO usuarioCreateDTO) {
         if (usuarioRepository.findByEmail(usuarioCreateDTO.getEmail()).isPresent()) {
             throw new EntidadExistenteException("El usuario ya existe");
@@ -53,20 +67,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setPedidos(new ArrayList<>());
         Usuario guardado = usuarioRepository.save(usuario);
         return usuarioMapper.toDTO(guardado);
-    }
-
-    @Override
-    public List<UsuarioDTO> listar() {
-        return usuarioRepository.findAll()
-                .stream()
-                .map(usuarioMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public UsuarioDTO buscarPorId(Long id) {
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new EntidadNoEncontradaException("Usuario no encontrado"));;
-        return usuarioMapper.toDTO(usuario);
     }
 
     @Override
@@ -93,14 +93,14 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public void eliminar(Long id) {
-        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));;
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new EntidadNoEncontradaException("Usuario no encontrado"));;
         usuarioRepository.delete(usuario);
     }
 
     @Override
     public UsuarioDTO login(AuthDTO authDTO) {
         Usuario usuario = usuarioRepository.findByEmail(authDTO.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new EntidadNoEncontradaException("Usuario no encontrado"));
 
         if (!hash.matches(authDTO.getContrasena(),usuario.getContrasena() )){
             throw new RuntimeException("Contraseña incorrecta");

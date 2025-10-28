@@ -13,4 +13,5 @@ import java.util.List;
 public class CategoriaDTO {
     Long id;
     String nombre;
+    String descripcion;
 }

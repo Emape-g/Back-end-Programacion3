@@ -1,8 +1,7 @@
 package com.example.foodstore.entity;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Entity
@@ -14,7 +13,9 @@ import lombok.*;
 public class Producto extends Base{
     private String nombre;
     private double precio;
-
-    @OneToOne
+    private String url_imagen;
+    private String descripcion;
+    private int stock;
+    @ManyToOne
     private Categoria categoria;
 }

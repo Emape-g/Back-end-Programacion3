@@ -21,16 +21,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody AuthDTO authDTO){
-        try{
-            UsuarioDTO usuarioDTO = usuarioService.login(authDTO);
-            return ResponseEntity.ok(usuarioDTO);
-        }catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
-    }
-
     @GetMapping("/")
     public ResponseEntity<?> getUsuarios(){
         try{
@@ -44,13 +34,10 @@ public class UsuarioController {
     public ResponseEntity<?> getUsuario(@PathVariable Long id){
         try {
             UsuarioDTO usuarioDTO = usuarioService.buscarPorId(id);
-            if (usuarioDTO == null) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
             return ResponseEntity.ok(usuarioDTO);
         }catch (EntidadNoEncontradaException e) {
             return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
+                    .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
         } catch(RuntimeException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -86,9 +73,9 @@ public class UsuarioController {
         try {
             UsuarioDTO usuarioActualizado = usuarioService.actualizar(id, usuarioDTO);
             return ResponseEntity.ok(usuarioActualizado);
-        }catch (EntidadExistenteException e) {
+        }catch (EntidadNoEncontradaException e) {
             return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
+                    .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
         }catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
@@ -97,11 +84,29 @@ public class UsuarioController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUsuario(@PathVariable Long id){
-        try{
+        try {
             usuarioService.eliminar(id);
             return ResponseEntity.noContent().build();
+        }catch (EntidadNoEncontradaException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
         }catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody AuthDTO authDTO){
+        try{
+            UsuarioDTO usuarioDTO = usuarioService.login(authDTO);
+            return ResponseEntity.ok(usuarioDTO);
+        }catch (EntidadNoEncontradaException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }catch (RuntimeException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
 }

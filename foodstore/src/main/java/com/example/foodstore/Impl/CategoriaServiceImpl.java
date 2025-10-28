@@ -56,7 +56,7 @@ public class CategoriaServiceImpl implements CategoriaService {
         Categoria categoriaActualizar = categoriaRepository.findById(id).orElseThrow(() -> new EntidadNoEncontradaException("Categoria no encontrada"));
 
         categoriaActualizar.setNombre(categoriaDTO.getNombre());
-
+        categoriaActualizar.setDescripcion(categoriaDTO.getDescripcion());
         Categoria categoriaGuardada = categoriaRepository.save(categoriaActualizar);
         return categoriaMapper.toDto(categoriaGuardada);
     }

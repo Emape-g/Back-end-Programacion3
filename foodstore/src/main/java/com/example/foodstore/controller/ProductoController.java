@@ -1,12 +1,9 @@
 package com.example.foodstore.controller;
 
-import com.example.foodstore.entity.dto.CategoriaCreateDTO;
-import com.example.foodstore.entity.dto.CategoriaDTO;
-import com.example.foodstore.entity.dto.UsuarioDTO;
-import com.example.foodstore.exception.ContrasenaInvalidaException;
+import com.example.foodstore.entity.dto.ProductoCreateDTO;
 import com.example.foodstore.exception.EntidadExistenteException;
 import com.example.foodstore.exception.EntidadNoEncontradaException;
-import com.example.foodstore.service.CategoriaService;
+import com.example.foodstore.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,40 +12,45 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/categorias")
-public class CategoriaController {
+@RequestMapping("/api/productos")
+public class ProductoController {
 
     @Autowired
-    private CategoriaService categoriaService;
+    private ProductoService productoService;
 
     @GetMapping("/")
-    public ResponseEntity<?> getCategorias(){
+    public ResponseEntity<?> getProductos(){
         try{
-            return ResponseEntity.ok(categoriaService.listar());
-        }catch (RuntimeException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            return ResponseEntity.ok(productoService.listar());
+        }catch (Exception e) {
+            // Errores inesperados
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error interno en el servidor"));
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getCategoria(@PathVariable Long id){
+    public ResponseEntity<?> getProducto(@PathVariable Long id){
         try{
-            return ResponseEntity.ok(categoriaService.buscarPorId(id));
+            return ResponseEntity.ok(productoService.buscarPorId(id));
         }catch (EntidadNoEncontradaException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
-        } catch(RuntimeException e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        } catch (Exception e) {
+            // Errores inesperados
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error interno en el servidor"));
         }
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> createCategoria(@RequestBody CategoriaCreateDTO categoriaCreateDTO){
-        try {
-            CategoriaDTO nuevaCategoria = categoriaService.crear(categoriaCreateDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevaCategoria);
-        } catch (EntidadExistenteException e) {
+    @PostMapping("/")
+    public ResponseEntity<?> createProducto(@RequestBody ProductoCreateDTO productoCreateDTO){
+        try{
+            return ResponseEntity.status(HttpStatus.CREATED).body(productoService.crear(productoCreateDTO));
+        }catch (EntidadExistenteException e) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body(Map.of("message", e.getMessage()));
@@ -60,13 +62,11 @@ public class CategoriaController {
         }
     }
 
-
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id,@RequestBody CategoriaDTO categoriaDTO){
+    public ResponseEntity<?> updateProducto(@PathVariable Long id,@RequestBody ProductoCreateDTO productoCreateDTO){
         try{
-            CategoriaDTO categoriaActualizadaDTO = categoriaService.actualizar(id, categoriaDTO);
-            return ResponseEntity.ok(categoriaActualizadaDTO);
-        } catch (EntidadNoEncontradaException e) {
+            return ResponseEntity.ok().body(productoService.actualizar(id, productoCreateDTO));
+        }catch (EntidadNoEncontradaException e) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
                     .body(Map.of("message", e.getMessage()));
@@ -79,9 +79,9 @@ public class CategoriaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id){
+    public ResponseEntity<?> deleteProducto(@PathVariable Long id){
         try{
-            categoriaService.eliminar(id);
+            productoService.eliminar(id);
             return ResponseEntity.noContent().build();
         }catch (EntidadNoEncontradaException e) {
             return ResponseEntity
@@ -94,4 +94,5 @@ public class CategoriaController {
                     .body(Map.of("message", "Error interno en el servidor"));
         }
     }
+
 }
