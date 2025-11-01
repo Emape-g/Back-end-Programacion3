@@ -3,6 +3,7 @@ package com.example.foodstore.entity.mapper;
 import com.example.foodstore.entity.Categoria;
 import com.example.foodstore.entity.Producto;
 import com.example.foodstore.entity.dto.ProductoCreateDTO;
+import com.example.foodstore.exception.EntidadNoEncontradaException;
 import com.example.foodstore.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,7 +32,7 @@ public class ProductoCreateMapper {
         entity.setUrl_imagen(dto.getUrl_imagen());
         entity.setStock(dto.getStock());
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+                .orElseThrow(() -> new EntidadNoEncontradaException("Categoría no encontrada"));
         entity.setCategoria(categoria);
         return entity;
     }

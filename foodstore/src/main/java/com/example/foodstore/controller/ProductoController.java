@@ -50,6 +50,10 @@ public class ProductoController {
     public ResponseEntity<?> createProducto(@RequestBody ProductoCreateDTO productoCreateDTO){
         try{
             return ResponseEntity.status(HttpStatus.CREATED).body(productoService.crear(productoCreateDTO));
+        }catch (EntidadNoEncontradaException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
         }catch (EntidadExistenteException e) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
