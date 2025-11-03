@@ -57,6 +57,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 
         categoriaActualizar.setNombre(categoriaDTO.getNombre());
         categoriaActualizar.setDescripcion(categoriaDTO.getDescripcion());
+        categoriaActualizar.setImagenUrl(categoriaDTO.getImagenUrl());
         Categoria categoriaGuardada = categoriaRepository.save(categoriaActualizar);
         return categoriaMapper.toDto(categoriaGuardada);
     }

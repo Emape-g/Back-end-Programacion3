@@ -14,4 +14,5 @@ public class CategoriaDTO {
     Long id;
     String nombre;
     String descripcion;
+    String imagenUrl;
 }

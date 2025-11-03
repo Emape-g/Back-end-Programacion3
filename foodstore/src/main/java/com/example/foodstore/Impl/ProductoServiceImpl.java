@@ -60,7 +60,7 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public ProductoDTO actualizar(Long id, ProductoCreateDTO productoCreateDTO){
         Producto producto =  productoRepository.findById(id).orElseThrow(()-> new EntidadNoEncontradaException("Producto no encontrado"));
-        Categoria categoria = categoriaRepository.findById(id).orElseThrow(() -> new EntidadNoEncontradaException("Categoria no encontrado"));
+        Categoria categoria = categoriaRepository.findById(productoCreateDTO.getCategoriaId()).orElseThrow(() -> new EntidadNoEncontradaException("Categoria no encontrado"));
         Producto productoValores = productoCreateMapper.toEntity(productoCreateDTO);
         producto.setNombre(productoValores.getNombre());
         producto.setPrecio(productoValores.getPrecio());

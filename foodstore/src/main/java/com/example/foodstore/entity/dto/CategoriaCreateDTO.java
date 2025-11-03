@@ -10,4 +10,5 @@ import lombok.*;
 public class CategoriaCreateDTO {
     String nombre;
     String descripcion;
+    String imagenUrl;
 }

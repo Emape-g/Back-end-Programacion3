@@ -43,7 +43,7 @@ public class CategoriaController {
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping("/")
     public ResponseEntity<?> createCategoria(@RequestBody CategoriaCreateDTO categoriaCreateDTO){
         try {
             CategoriaDTO nuevaCategoria = categoriaService.crear(categoriaCreateDTO);

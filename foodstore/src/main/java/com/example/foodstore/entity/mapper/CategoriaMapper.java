@@ -13,6 +13,7 @@ public class CategoriaMapper {
         dto.setId(entity.getId());
         dto.setNombre(entity.getNombre());
         dto.setDescripcion(entity.getDescripcion());
+        dto.setImagenUrl(entity.getImagenUrl());
         return dto;
     }
 
@@ -21,6 +22,7 @@ public class CategoriaMapper {
         entity.setId(dto.getId());
         entity.setNombre(dto.getNombre());
         entity.setDescripcion(dto.getDescripcion());
+        entity.setImagenUrl(dto.getImagenUrl());
         return entity;
     }
 }

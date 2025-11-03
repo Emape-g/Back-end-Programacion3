@@ -11,6 +11,7 @@ public class CategoriaCreateMapper {
         CategoriaCreateDTO dto = new CategoriaCreateDTO();
         dto.setNombre(entity.getNombre());
         dto.setDescripcion(entity.getDescripcion());
+        dto.setImagenUrl(entity.getImagenUrl());
         return dto;
     }
 
@@ -18,6 +19,7 @@ public class CategoriaCreateMapper {
         Categoria entity = new Categoria();
         entity.setNombre(dto.getNombre());
         entity.setDescripcion(dto.getDescripcion());
+        entity.setImagenUrl(dto.getImagenUrl());
         return entity;
     }
 }
