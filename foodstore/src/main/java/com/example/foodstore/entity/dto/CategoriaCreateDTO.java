@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class CategoriaCreateDTO {
-    String nombre;
-    String descripcion;
-    String imagenUrl;
+    private String nombre;
+    private String descripcion;
+    private String imagenUrl;
 }

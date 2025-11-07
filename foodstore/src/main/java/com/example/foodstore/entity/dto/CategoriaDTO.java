@@ -11,8 +11,8 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class CategoriaDTO {
-    Long id;
-    String nombre;
-    String descripcion;
-    String imagenUrl;
+    private Long id;
+    private String nombre;
+    private String descripcion;
+    private String imagenUrl;
 }

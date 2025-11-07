@@ -9,10 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class ProductoCreateDTO {
-    String nombre;
-    double precio;
-    Long categoriaId;
-    String descripcion;
-    String url_imagen;
-    int stock;
+    private String nombre;
+    private double precio;
+    private Long categoriaId;
+    private String descripcion;
+    private String url_imagen;
+    private int stock;
 }

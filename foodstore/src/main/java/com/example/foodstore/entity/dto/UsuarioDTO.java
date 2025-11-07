@@ -11,11 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class UsuarioDTO {
-    Long id;
-    String nombre;
-    String apellido;
-    String email;
-    String celular;
-    Rol rol;
-    List<Pedido> pedidos;
+    private Long id;
+    private String nombre;
+    private String apellido;
+    private String email;
+    private String celular;
+    private Rol rol;
+    private List<Pedido> pedidos;
 }

@@ -49,15 +49,7 @@ public class DetallePedidoServiceImpl implements DetallePedidoService {
 
     @Override
     public DetallePedidoDTO actualizar(DetallePedidoDTO dto) {
-        DetallePedido detallePedido = detallePedidoRepository.findById(dto.getId())
-                .orElseThrow(()-> new EntidadNoEncontradaException("DetallePedido no encontrado"));
-        DetallePedido detalleActualizado = detallePedidoMapper.toEntity(dto);
-        detallePedido.setSubtotal(dto.getSubtotal());
-        detallePedido.setCantidad(dto.getCantidad());
-        detallePedido.setProducto(detalleActualizado.getProducto());
-        detallePedido.setPedido(detalleActualizado.getPedido());
-        detallePedidoRepository.save(detallePedido);
-        return detallePedidoMapper.toDto(detallePedido);
+        return null;
     }
 
     @Override

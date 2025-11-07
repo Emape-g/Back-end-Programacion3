@@ -9,11 +9,11 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class ProductoDTO {
-    Long id;
-    String nombre;
-    double precio;
-    Categoria categoria;
-    String descripcion;
-    String url_imagen;
-    int stock;
+    private Long id;
+    private String nombre;
+    private double precio;
+    private Categoria categoria;
+    private String descripcion;
+    private String url_imagen;
+    private int stock;
 }

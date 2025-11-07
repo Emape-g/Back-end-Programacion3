@@ -8,6 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class AuthDTO {
-    String email;
-    String contrasena;
+    private String email;
+    private String contrasena;
 }

@@ -17,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class Pedido extends Base{
+
     private LocalDate fecha;
     private Estado estado;
     private double total;

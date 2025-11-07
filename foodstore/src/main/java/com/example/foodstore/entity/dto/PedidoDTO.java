@@ -13,9 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class PedidoDTO {
-    Long id;
-    LocalDate fecha;
-    Estado estado;
-    double total;
-    List<DetallePedidoDTO> detallepedidosDto = new ArrayList<>();
+    private Long id;
+    private LocalDate fecha;
+    private Estado estado;
+    private double total;
+    private List<DetallePedidoDTO> detallePedidos;
 }

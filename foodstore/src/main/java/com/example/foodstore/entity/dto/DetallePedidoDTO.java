@@ -11,9 +11,8 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class DetallePedidoDTO {
-    Long id;
-    int cantidad;
-    double subtotal;
-    Long pedido_id;
-    Long producto_id;
+    private Long id;
+    private Long producto_id;
+    private int cantidad;
+    private double subtotal;
 }

@@ -8,9 +8,9 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class UsuarioCreateDTO {
-    String nombre;
-    String apellido;
-    String email;
-    String celular;
-    String contrasena;
+    private String nombre;
+    private String apellido;
+    private String email;
+    private String celular;
+    private String contrasena;
 }

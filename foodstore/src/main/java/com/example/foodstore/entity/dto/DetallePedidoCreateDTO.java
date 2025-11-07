@@ -11,7 +11,5 @@ import lombok.*;
 @ToString
 public class DetallePedidoCreateDTO {
     int cantidad;
-    double subtotal;
-    Long pedido_id;
     Long producto_id;
 }
