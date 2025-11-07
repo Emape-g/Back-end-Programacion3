@@ -2,7 +2,6 @@ package com.example.foodstore.entity.dto;
 
 import com.example.foodstore.entity.Pedido;
 import com.example.foodstore.entity.Producto;
-import jakarta.persistence.ManyToOne;
 import lombok.*;
 
 @Getter
@@ -10,8 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DetallePedidoDTO {
-    Long id;
+public class DetallePedidoCreateDTO {
     int cantidad;
     double subtotal;
     Long pedido_id;

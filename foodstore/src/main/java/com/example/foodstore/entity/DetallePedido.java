@@ -1,6 +1,5 @@
 package com.example.foodstore.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
