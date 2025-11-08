@@ -80,13 +80,6 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setCelular(dto.getCelular());
         usuario.setRol(dto.getRol());
 
-
-
-        if (dto.getPedidos() != null) {
-            usuario.getPedidos().clear();
-            usuario.getPedidos().addAll(dto.getPedidos());
-        }
-
         Usuario guardado = usuarioRepository.save(usuario);
         return usuarioMapper.toDTO(guardado);
     }

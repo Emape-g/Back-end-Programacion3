@@ -46,6 +46,17 @@ public class PedidoController {
         }
     }
 
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<?> getPedidoPorUsuario(@PathVariable Long id){
+        try{
+            return ResponseEntity.ok(pedidoService.buscarPedidoPorUsuario(id));
+        }catch (EntidadNoEncontradaException e) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", e.getMessage()));
+        }
+    }
+
     @PostMapping("/")
     public ResponseEntity<?> createProducto(@RequestBody PedidoCreateDTO pedidoCreateDTO){
         try{

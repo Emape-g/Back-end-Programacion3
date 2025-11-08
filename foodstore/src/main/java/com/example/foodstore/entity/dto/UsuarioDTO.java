@@ -17,5 +17,5 @@ public class UsuarioDTO {
     private String email;
     private String celular;
     private Rol rol;
-    private List<Pedido> pedidos;
+    private List<PedidoDTO> pedidos;
 }

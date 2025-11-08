@@ -9,5 +9,13 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class PedidoCreateDTO {
+
+    private Long usuario_id;
+
+    private String telefono;
+    private String direccion;
+    private String metodoPago;
+    private String notas;
+
     private List<DetallePedidoCreateDTO> detallePedidos;
 }

@@ -104,6 +104,14 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    public List<PedidoDTO> buscarPedidoPorUsuario(Long id) {
+        return pedidoRepository.findByUsuario_id(id)
+                .stream()
+                .map(pedidoMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PedidoDTO actualizarEstado(Long id, String nuevoEstado) {
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new EntidadNoEncontradaException("Pedido no encontrado con ID: " + id));
@@ -125,4 +133,6 @@ public class PedidoServiceImpl implements PedidoService {
                 .orElseThrow(() -> new EntidadNoEncontradaException("Pedido no encontrado con ID: " + id));
         pedidoRepository.delete(pedido);
     }
+
+
 }

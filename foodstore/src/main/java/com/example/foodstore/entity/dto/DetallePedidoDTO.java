@@ -13,6 +13,7 @@ import lombok.*;
 public class DetallePedidoDTO {
     private Long id;
     private Long producto_id;
+    private String nombre;
     private int cantidad;
     private double subtotal;
 }

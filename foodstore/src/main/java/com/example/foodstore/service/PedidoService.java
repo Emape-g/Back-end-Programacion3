@@ -11,6 +11,7 @@ public interface PedidoService {
     PedidoDTO crear(PedidoCreateDTO pedidoCreateDTO);
     List<PedidoDTO> listar();
     PedidoDTO buscarPorId(Long id);
+    List<PedidoDTO> buscarPedidoPorUsuario(Long id);
     PedidoDTO actualizarEstado(Long id, String nuevoEstado);
     void eliminar(Long id);
 }

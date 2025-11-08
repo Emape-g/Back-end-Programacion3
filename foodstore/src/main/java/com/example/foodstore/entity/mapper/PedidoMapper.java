@@ -3,6 +3,7 @@ package com.example.foodstore.entity.mapper;
 import com.example.foodstore.entity.Pedido;
 import com.example.foodstore.entity.dto.DetallePedidoDTO;
 import com.example.foodstore.entity.dto.PedidoDTO;
+import com.example.foodstore.entity.dto.UsuarioDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,11 @@ public class PedidoMapper {
         dto.setFecha(pedido.getFecha());
         dto.setEstado(pedido.getEstado());
         dto.setTotal(pedido.getTotal());
+
+        dto.setTelefono(pedido.getTelefono());
+        dto.setDireccion(pedido.getDireccion());
+        dto.setMetodoPago(pedido.getMetodoPago());
+        dto.setNotas(pedido.getNotas());
 
         List<DetallePedidoDTO> detalles = pedido.getDetallepedidos()
                 .stream()

@@ -20,6 +20,6 @@ public class Usuario extends Base{
     private String celular;
     private String contrasena;
     private Rol rol;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)// preguntar
+    @OneToMany(mappedBy = "usuario",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pedido> pedidos = new ArrayList<>();
 }
