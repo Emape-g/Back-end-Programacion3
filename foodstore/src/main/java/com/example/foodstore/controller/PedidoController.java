@@ -19,7 +19,7 @@ public class PedidoController {
     PedidoService pedidoService;
 
     @GetMapping("/")
-    public ResponseEntity<?> getProductos(){
+    public ResponseEntity<?> getPedidos(){
         try{
             return ResponseEntity.ok(pedidoService.listar());
         }catch (Exception e) {
@@ -71,7 +71,7 @@ public class PedidoController {
                     .body(Map.of("message", e.getMessage()));
         }catch (StockInsuficienteException e){
             return ResponseEntity
-                    .status(HttpStatus.LOCKED)
+                    .status(HttpStatus.BAD_REQUEST)
                     .body(Map.of("message", e.getMessage()));
         } catch (Exception e) {
             // Errores inesperados

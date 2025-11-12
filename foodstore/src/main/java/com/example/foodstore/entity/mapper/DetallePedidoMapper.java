@@ -20,6 +20,7 @@ public class DetallePedidoMapper {
         dto.setId(entity.getId());
         dto.setProducto_id(entity.getProducto().getId());
         dto.setNombre(entity.getProducto().getNombre());
+        dto.setUrl_imagen(entity.getProducto().getUrl_imagen());
         dto.setCantidad(entity.getCantidad());
         dto.setSubtotal(entity.getSubtotal());
         return dto;

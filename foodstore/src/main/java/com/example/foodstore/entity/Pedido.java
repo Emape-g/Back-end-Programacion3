@@ -25,10 +25,11 @@ public class Pedido extends Base{
     private String metodoPago;
     private String notas;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetallePedido> detallepedidos = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
+
 }

@@ -38,7 +38,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public PedidoDTO crear(PedidoCreateDTO pedidoCreateDTO) {
-        // 🧱 1️⃣ Crear la entidad Pedido a partir del DTO
+        //Crear la entidad Pedido a partir del DTO
         Pedido pedido = pedidoCreateMapper.toEntity(pedidoCreateDTO);
 
         // Asignamos valores automáticos
@@ -48,7 +48,7 @@ public class PedidoServiceImpl implements PedidoService {
 
         double total = 0.0;
 
-        // 🧩 2️⃣ Procesar cada detalle del pedido
+        //Procesar cada detalle del pedido
         for (DetallePedido detalle : pedido.getDetallepedidos()) {
 
             // Buscar el producto y validar existencia
@@ -78,13 +78,13 @@ public class PedidoServiceImpl implements PedidoService {
             total += detalle.getSubtotal();
         }
 
-        // 🧾 3️⃣ Calcular total y guardar
+        //Calcular total y guardar
         pedido.setTotal(total);
 
         // Guardamos el pedido completo (cascade guarda los detalles)
         Pedido guardado = pedidoRepository.save(pedido);
 
-        // 🧭 4️⃣ Retornar DTO final
+        // Retornar DTO final
         return pedidoMapper.toDto(guardado);
     }
 
@@ -121,6 +121,18 @@ public class PedidoServiceImpl implements PedidoService {
             estadoEnum = Estado.valueOf(nuevoEstado.toUpperCase()); // valida el enum
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Estado no válido. Usa: PENDIENTE, CONFIRMADO, CANCELADO o TERMINADO");
+        }
+        if(estadoEnum == Estado.CANCELADO){
+            for (DetallePedido detalle : pedido.getDetallepedidos()) {
+                // Buscar el producto y validar existencia
+                Producto producto = productoRepository.findById(detalle.getProducto().getId())
+                        .orElseThrow(() -> new EntidadNoEncontradaException(
+                                "Producto no encontrado con ID: " + detalle.getProducto().getId()
+                        ));
+                // Sumar stock y persistir cambio
+                producto.setStock(producto.getStock() + detalle.getCantidad());
+                productoRepository.save(producto);
+            }
         }
         pedido.setEstado(estadoEnum);
         Pedido guardado = pedidoRepository.save(pedido);
